@@ -1,126 +1,101 @@
-# Multimodal Live API - Web console
+# AI Tutor 🎓
 
-This repository contains a react-based starter app for using the [Multimodal Live API](<[https://ai.google.dev/gemini-api](https://ai.google.dev/api/multimodal-live)>) over a websocket. It provides modules for streaming audio playback, recording user media such as from a microphone, webcam or screen capture as well as a unified log view to aid in development of your application.
+<div align="center">
 
-[![Multimodal Live API Demo](readme/thumbnail.png)](https://www.youtube.com/watch?v=J_q7JY1XxFE)
+An intelligent tutoring system that combines real-time audio-visual interaction with Google's Gemini AI for an immersive learning experience.
 
-Watch the demo of the Multimodal Live API [here](https://www.youtube.com/watch?v=J_q7JY1XxFE).
+</div>
 
-## Usage
+---
+## ✨ Features
 
-To get started, [create a free Gemini API key](https://aistudio.google.com/apikey) and add it to the `.env` file. Then:
+- **Real-time Interaction**
+  - 🎥 Live video streaming
+  - 🎤 Voice communication
 
-```
-$ npm install && npm start
-```
+- **Smart AI Integration**
+  - 🤖 Powered by Google's Gemini API
+  - 🧠 Contextual learning
+  - ⚡ Real-time responses
 
-We have provided several example applications on other branches of this repository:
+- **User Experience**
+  - 📱 Responsive design
+  - 🎨 User friendly interface
 
-- [demos/GenExplainer](https://github.com/google-gemini/multimodal-live-api-web-console/tree/demos/genexplainer)
-- [demos/GenWeather](https://github.com/google-gemini/multimodal-live-api-web-console/tree/demos/genweather)
-- [demos/GenList](https://github.com/google-gemini/multimodal-live-api-web-console/tree/demos/genlist)
+## 🚀 Getting Started
 
-## Example
+### Prerequisites
 
-Below is an example of an entire application that will use Google Search grounding and then render graphs using [vega-embed](https://github.com/vega/vega-embed):
+Before you begin, ensure you have the following installed:
+- Node.js (v14 or higher)
+- npm or yarn
+- A Google Cloud Project
+- Gemini API key
 
-```typescript
-import { type FunctionDeclaration, SchemaType } from "@google/generative-ai";
-import { useEffect, useRef, useState, memo } from "react";
-import vegaEmbed from "vega-embed";
-import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
+### Installation
 
-export const declaration: FunctionDeclaration = {
-  name: "render_altair",
-  description: "Displays an altair graph in json format.",
-  parameters: {
-    type: SchemaType.OBJECT,
-    properties: {
-      json_graph: {
-        type: SchemaType.STRING,
-        description:
-          "JSON STRING representation of the graph to render. Must be a string, not a json object",
-      },
-    },
-    required: ["json_graph"],
-  },
-};
+1. **Clone the repository**
+   ```bash
+   
+   ```
 
-export function Altair() {
-  const [jsonString, setJSONString] = useState<string>("");
-  const { client, setConfig } = useLiveAPIContext();
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-  useEffect(() => {
-    setConfig({
-      model: "models/gemini-2.0-flash-exp",
-      systemInstruction: {
-        parts: [
-          {
-            text: 'You are my helpful assistant. Any time I ask you for a graph call the "render_altair" function I have provided you. Dont ask for additional information just make your best judgement.',
-          },
-        ],
-      },
-      tools: [{ googleSearch: {} }, { functionDeclarations: [declaration] }],
-    });
-  }, [setConfig]);
+3. **Configure environment variables**
+   - Create a `.env` file in the root directory
+   - Add your Gemini API key:
+     ```env
+     REACT_APP_GEMINI_API_KEY=your_gemini_api_key_here
+     ```
 
-  useEffect(() => {
-    const onToolCall = (toolCall: ToolCall) => {
-      console.log(`got toolcall`, toolCall);
-      const fc = toolCall.functionCalls.find(
-        (fc) => fc.name === declaration.name
-      );
-      if (fc) {
-        const str = (fc.args as any).json_graph;
-        setJSONString(str);
-      }
-    };
-    client.on("toolcall", onToolCall);
-    return () => {
-      client.off("toolcall", onToolCall);
-    };
-  }, [client]);
+4. **Start the development server**
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
 
-  const embedRef = useRef<HTMLDivElement>(null);
+   The application will be available at `http://localhost:3000`
 
-  useEffect(() => {
-    if (embedRef.current && jsonString) {
-      vegaEmbed(embedRef.current, JSON.parse(jsonString));
-    }
-  }, [embedRef, jsonString]);
-  return <div className="vega-embed" ref={embedRef} />;
-}
-```
+## 💡 How to Use
 
-## development
+1. **Initial Setup**
+   - Grant camera and microphone permissions when prompted
+   - Ensure stable internet connection
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-Project consists of:
+2. **Control Panel Features**
+   - Toggle microphone 🎤
+   - Toggle camera 📹
+   
 
-- an Event-emitting websocket-client to ease communication between the websocket and the front-end
-- communication layer for processing audio in and out
-- a boilerplate view for starting to build your apps and view logs
+3. **Interacting with AI Tutor**
+   - Speak naturally or type your questions
+   - Receive real-time responses
+   - View AI-generated explanations and diagrams
 
-## Available Scripts
+## 🛠️ Tech Stack
 
-In the project directory, you can run:
+- **Frontend Framework**
+  - React
+  - TypeScript
+  - SCSS
 
-### `npm start`
+- **Real-time Communication**
+  - WebRTC
+  - WebSocket
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **AI Integration**
+  - Google Gemini API
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🤝 Contributing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-_This is an experiment showcasing the Multimodal Live API, not an official Google product. We’ll do our best to support and maintain this experiment but your mileage may vary. We encourage open sourcing projects as a way of learning from each other. Please respect our and other creators' rights, including copyright and trademark rights when present, when sharing these works and creating derivative work. If you want more info on Google's policy, you can find that [here](https://developers.google.com/terms/site-policies)._
