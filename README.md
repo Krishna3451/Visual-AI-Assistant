@@ -36,7 +36,7 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   
+   git clone https://github.com/Krishna3451/Visual-AI-Assistant.git
    ```
 
 2. **Install dependencies**
