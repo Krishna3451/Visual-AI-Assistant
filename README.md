@@ -28,15 +28,14 @@ An intelligent tutoring system that combines real-time audio-visual interaction 
 
 Before you begin, ensure you have the following installed:
 - Node.js (v14 or higher)
-- npm or yarn
-- A Google Cloud Project
+- npm 
 - Gemini API key
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   
+   git clone https://github.com/Krishna3451/Visual-AI-Assistant.git
    ```
 
 2. **Install dependencies**
@@ -76,21 +75,20 @@ Before you begin, ensure you have the following installed:
 3. **Interacting with AI Tutor**
    - Speak naturally or type your questions
    - Receive real-time responses
-   - View AI-generated explanations and diagrams
+   
 
 ## 🛠️ Tech Stack
 
 - **Frontend Framework**
-  - React
+  - React/TS
   - TypeScript
   - SCSS
 
 - **Real-time Communication**
-  - WebRTC
   - WebSocket
 
 - **AI Integration**
-  - Google Gemini API
+  - Google Gemini 2.0 Multimodal Live API
 
 
 
